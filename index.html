@@ -12,38 +12,80 @@
         /* ==================================== */
         :root {
             --color-black: #101010;
-            --color-orange: #ff8c00; /* Primary Accent */
-            --color-yellow: #ffc400; /* Secondary Accent (Bright) */
+            --color-orange: #ff8c00; /* Primary Accent (Royal Orange) */
+            --color-yellow: #ffc400; /* Secondary Accent (Bright Gold) */
             --color-white: #ffffff;
             --color-light-gray: #e9e9e9;
-            --color-dark-overlay: rgba(0, 0, 0, 0.9); /* Overlay lebih gelap untuk kontras */
-            --color-accent-dark: #333333; /* Warna latar belakang kotak netral */
+            --color-dark-overlay: rgba(0, 0, 0, 0.9);
+            --color-accent-dark: #333333;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Font utama untuk isi teks */
             font-family: 'Poppins', sans-serif; 
         }
 
+        /* ====================================
+        --- PENAMBAHAN PARTIKEL (SALJU MISTIS/ABU) --- 
+        ====================================
+        */
         body {
             background-color: var(--color-black);
             color: var(--color-white);
             line-height: 1.6;
-            
-            /* Background utama body (Background 1: Landscape/Castle) */
             background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/1b43ef5f89a9a29079ad9c0a3a8bb2d0.jpg'); 
             background-size: cover;
-            background-attachment: fixed; /* Efek Parallax Ringan */
+            background-attachment: fixed;
             background-position: center;
+            overflow-x: hidden; /* Mencegah scroll horizontal dari partikel */
+            position: relative; /* Penting untuk partikel */
         }
         
-        /* Kontrol Lebar Konten Utama */
+        /* Simpul Dasar untuk Partikel */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Agar tidak mengganggu interaksi mouse */
+            z-index: 1000;
+        }
+
+        /* Partikel Kecil (Simulasi Salju atau Debu Ajaib) */
+        .snow-container::before, .snow-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-repeat: repeat;
+            animation: snowfall linear infinite;
+        }
+
+        .snow-container::before {
+            /* Partikel Putih Kecil */
+            background-image: radial-gradient(circle, var(--color-light-gray) 1px, transparent 1px);
+            background-size: 1000px 1000px;
+            opacity: 0.6;
+            animation-duration: 20s;
+        }
+
+        .snow-container::after {
+            /* Partikel Kuning/Orange Lebih Jarang */
+            background-image: radial-gradient(circle, var(--color-yellow) 1px, transparent 1px);
+            background-size: 500px 500px;
+            opacity: 0.4;
+            animation-duration: 35s;
+        }
+
+
         .container {
             width: 95%; 
-            max-width: 1100px; /* Lebar maksimum dinaikkan sedikit */
+            max-width: 1100px; 
             margin: 0 auto;
         }
 
@@ -54,31 +96,44 @@
             background-color: var(--color-dark-overlay); 
             padding: 80px 0 120px 0; 
             position: relative;
-            /* Bentuk Papan Nama Fantasy */
             clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%); 
             border-bottom: 5px solid var(--color-yellow); 
             text-align: center;
+            z-index: 2; /* Di atas partikel */
         }
         
-        /* GAYA JUDUL UTAMA */
+        /* GAYA JUDUL UTAMA - DITAMBAH EFEK SHIMMER */
         .header h1 {
             font-family: 'Cinzel', serif; 
             font-size: 4.5em; 
             font-weight: 900;
             letter-spacing: 8px;
-            text-shadow: 0 0 20px rgba(255, 196, 0, 0.9), 0 0 5px var(--color-orange); 
             line-height: 1;
             margin-bottom: 5px;
-            animation: fadeInDown 1s ease-out; /* Animasi masuk */
+            animation: fadeInDown 1s ease-out;
+            color: var(--color-white); /* Warna dasar untuk teks */
+            
+            /* Efek Shimmer (Golden Highlight) */
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, #fff 0%, var(--color-yellow) 20%, #fff 40%, var(--color-yellow) 60%, #fff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 196, 0, 0.5); /* Teks shadow lembut */
+            animation: shimmer 5s linear infinite, fadeInDown 1s ease-out;
         }
 
         .header h1 span.orange {
-            color: var(--color-orange);
+            -webkit-background-clip: border-box; /* Reset for S14 */
+            -webkit-text-fill-color: var(--color-orange);
             font-size: 0.5em;
             vertical-align: top;
             margin-right: 5px;
             display: inline-block; 
             letter-spacing: 0;
+            text-shadow: none; 
+            animation: none;
         }
 
         .header h2 {
@@ -88,12 +143,13 @@
             color: var(--color-yellow);
             margin-bottom: 40px;
             letter-spacing: 3px;
-            animation: fadeIn 2s ease-out; /* Animasi masuk */
+            animation: fadeIn 2s ease-out;
+            text-shadow: 0 0 5px rgba(255, 140, 0, 0.7);
         }
         
-        /* Tombol CTA */
+        /* Tombol CTA (Tidak diubah, sudah bagus) */
         .btn-cta {
-            display: inline-block; /* Agar bisa pakai margin auto */
+            display: inline-block; 
             text-decoration: none;
             background-color: var(--color-yellow);
             color: var(--color-black);
@@ -141,9 +197,21 @@
             position: relative;
             z-index: 1; 
             min-height: 400px;
+            /* Tambahkan animasi masuk sinematik */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInContent 0.8s ease-out forwards;
         }
         
-        /* Background & Overlay untuk Setiap Section */
+        /* Untuk menunda animasi slideInContent di setiap section */
+        #pendaftaran { animation-delay: 0.5s; }
+        #kelompok { animation-delay: 0.7s; }
+        #quest { animation-delay: 0.9s; }
+        #leveling-adc { animation-delay: 1.1s; }
+        #hadiah-rp { animation-delay: 1.3s; }
+        #kepengurusan { animation-delay: 1.5s; }
+
+
         section::before {
             content: '';
             position: absolute;
@@ -155,7 +223,7 @@
             background-position: center;
             background-attachment: fixed;
             z-index: -2;
-            opacity: 0.6; /* Membuat gambar background lebih tersembunyi */
+            opacity: 0.6;
         }
 
         section::after {
@@ -165,24 +233,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Overlay yang gelap */
             background: var(--color-dark-overlay); 
             z-index: -1;
         }
 
         /* Penerapan 3 Background Berbeda */
-        /* Background 2: Close-up Stone Wall */
         #pendaftaran::before, #kelompok::before {
             background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/1acc33b4b508180ba1e3df423a927fe1.jpg');
         }
 
-        /* Background 3: Dark/Magical Forest */
         #quest::before, #leveling-adc::before, #hadiah-rp::before, #kepengurusan::before {
             background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/236836a73b7d8365b416a9fe9b7dcacc.jpg');
         }
 
 
-        /* Content Styling inside Section */
         h3 {
             font-family: 'Cinzel', serif;
             font-size: 2.8em; 
@@ -193,10 +257,9 @@
             text-shadow: 0 0 8px rgba(255, 196, 0, 0.8), 0 0 2px var(--color-orange);
             letter-spacing: 2px;
             position: relative;
-            z-index: 2; /* Pastikan judul di atas overlay */
+            z-index: 2;
         }
         
-        /* Sub-judul dalam section */
         h4 {
              font-family: 'Cinzel', serif;
              font-weight: 700;
@@ -207,12 +270,11 @@
              padding-bottom: 5px;
         }
 
-        /* Icon Utility */
         .icon-svg {
             width: 24px;
             height: 24px;
             margin-right: 10px;
-            fill: currentColor; /* Warna mengikuti teks/container */
+            fill: currentColor;
         }
 
         .section-icon {
@@ -223,7 +285,7 @@
             vertical-align: middle;
         }
         
-        /* List Styling - Pendaftaran */
+        /* List Styling - Pendaftaran (Tidak diubah) */
         .registration-list .list-item {
             display: flex; 
             align-items: center;
@@ -247,11 +309,9 @@
             color: var(--color-yellow);
         }
 
-        /* Icon Heksagonal */
         .hex-icon-container {
             padding: 8px;
             background-color: var(--color-yellow);
-            /* Bentuk Heksagon */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             margin-right: 20px;
             flex-shrink: 0; 
@@ -287,7 +347,7 @@
             text-shadow: 0 0 5px var(--color-orange);
         }
 
-        /* Kelompok (Kerajaan/Party) */
+        /* Kelompok (Kerajaan/Party) (Tidak diubah) */
         #kerajaan, #party {
             background-color: var(--color-accent-dark); 
             padding: 30px;
@@ -326,7 +386,6 @@
             font-size: 1.2em;
         }
         
-        /* Grid Layout (Gunakan Grid untuk tata letak 2 kolom) */
         .grid-2-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -334,14 +393,14 @@
             margin-top: 30px;
         }
 
-        /* Table Style */
+        /* Table Style (Tidak diubah) */
         .tab-content table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
-            overflow: hidden; /* Agar border radius bekerja */
+            overflow: hidden;
         }
         .tab-content table thead tr {
             background-color: var(--color-orange) !important;
@@ -362,7 +421,7 @@
             font-weight: 700;
         }
 
-        /* Leveling & ADC */
+        /* Leveling & ADC (Tidak diubah) */
         .leveling-block, .adc-block {
             padding: 30px;
             margin-top: 30px;
@@ -385,12 +444,11 @@
             display: flex;
             align-items: center;
             padding-left: 15px;
-            /* Animasi progress bar */
             transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
             font-size: 1em;
         }
         
-        /* RP & Hadiah */
+        /* RP & Hadiah (Tidak diubah) */
         .rp-box, .hadiah-box {
             border: 2px solid var(--color-yellow);
             padding: 30px;
@@ -410,7 +468,7 @@
         }
 
 
-        /* Footer */
+        /* Footer (Tidak diubah) */
         .footer {
             background-color: var(--color-black);
             text-align: center;
@@ -418,9 +476,11 @@
             border-top: 5px solid var(--color-orange);
             font-family: 'Cinzel', serif;
             font-weight: 400;
+            z-index: 2; /* Di atas partikel */
+            position: relative;
         }
 
-        /* Tab Styles */
+        /* Tab Styles (Tidak diubah) */
         .btn-tab {
             background-color: rgba(0, 0, 0, 0.5);
             color: var(--color-white);
@@ -444,7 +504,7 @@
         }
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s ease-out; /* Animasi fade-in untuk konten tab */
+            animation: fadeIn 0.5s ease-out;
         }
         .tab-content.active {
             display: block;
@@ -469,6 +529,24 @@
             100% { transform: scale(1); }
         }
 
+        /* Animasi Shimmer untuk Judul */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Animasi Masuk Konten Sinematik */
+        @keyframes slideInContent {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Animasi Partikel Jatuh */
+        @keyframes snowfall {
+            0% { background-position: 0 0; }
+            100% { background-position: 500px 1000px; } /* Sesuaikan dengan background-size partikel */
+        }
+
+
         /* ==================================== */
         /* --- 5. MEDIA QUERIES (RESPONSIVITAS) --- */
         /* ==================================== */
@@ -489,7 +567,6 @@
         
         @media (max-width: 767px) {
             
-            /* Penyesuaian Header untuk Mobile */
             .header {
                 padding: 50px 0 80px 0;
             }
@@ -510,7 +587,6 @@
                 margin-bottom: 30px;
             }
             
-            /* Mengubah grid 2 kolom menjadi tumpukan di mobile */
             .grid-2-col {
                 grid-template-columns: 1fr; 
                 gap: 20px; 
@@ -520,11 +596,10 @@
                  padding: 15px 20px;
             }
             
-            /* Mengatur ulang tabs di mobile */
             #tabs-group {
                 text-align: left;
-                overflow-x: auto; /* Memungkinkan scroll horizontal */
-                white-space: nowrap; /* Mencegah tombol melompat baris */
+                overflow-x: auto;
+                white-space: nowrap;
                 padding: 0 10px 10px 10px; 
             }
             .btn-tab {
@@ -543,6 +618,7 @@
 </head>
 <body>
 
+    <div class="snow-container"></div>
     <svg style="display: none;">
         <symbol id="icon-user" viewBox="0 0 24 24">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
@@ -613,7 +689,7 @@
                 <div class="special-note">
                     <p><strong>Khusus (Jalur Alternatif):</strong></p>
                     <ul class="list-group" style="list-style: disc;">
-                        <li>Bayar **20k**</li>
+                        <li>Bayar 20k</li>
                         <li>Catur melawan Algi/Habib/Navil/Jonathan</li>
                         <li>Lewat orang dalam (syarat: kirim selfie <span class="orang-dalam">aowkwkw</span>)</li>
                     </ul>
@@ -636,7 +712,7 @@
                 <div id="kerajaan" class="tab-content active">
                     <h4><svg class="icon-svg" style="fill: var(--color-yellow);"><use xlink:href="#icon-crown"></use></svg> Kerajaan</h4>
                     <ul class="list-group" style="margin-left: 20px; list-style: circle; margin-bottom: 20px;">
-                        <li>Total kerajaan hanya **2** dan kemungkinan besar tidak bertambah pada Fase 2.</li>
+                        <li>Total kerajaan hanya 2 dan kemungkinan besar tidak bertambah pada Fase 2.</li>
                         <li>Kerajaan harus berada pada koordinat yang berbeda.</li>
                         <li>Kerajaan tidak boleh membuat koloni/mini base di wilayah netral.</li>
                     </ul>
@@ -645,7 +721,7 @@
                             <h4>Hak Kerajaan</h4>
                             <ul class="quest-list">
                                 <li>Memberikan kupon izin naik level job (setiap kenaikan level harus ada persetujuan bangsawan/raja).</li>
-                                <li>Wilayah awal **2.000 block**, boleh diperluas jika memenangkan event **dua kali berturut-turut**.</li>
+                                <li>Wilayah awal 2.000 block, boleh diperluas jika memenangkan event dua kali berturut-turut.</li>
                                 <li>Mendapat subsidi server ($100 \text{ ADC} \times \text{jumlah member aktif}$).</li>
                             </ul>
                         </div>
@@ -653,7 +729,7 @@
                             <h4>Kewajiban Kerajaan</h4>
                             <ul class="quest-list" style="color: var(--color-white);">
                                 <li>Membuat quest kerajaan.</li>
-                                <li>Membangun **3 bangunan wajib** dalam 1 bulan setelah Fase 2 rilis (storage, kastil, dan portal nether).</li>
+                                <li>Membangun 3 bangunan wajib dalam 1 bulan setelah Fase 2 rilis (storage, kastil, dan portal nether).</li>
                             </ul>
                         </div>
                     </div>
@@ -670,7 +746,7 @@
                             <h4>Hak Party</h4>
                             <ul class="quest-list">
                                 <li>Tidak terikat peraturan kerajaan apapun.</li>
-                                <li>Ekspansi wilayah maksimal **1.500 block**, didapat jika salah satu member memenangkan event (luas awal **500 block**).</li>
+                                <li>Ekspansi wilayah maksimal 1.500 block, didapat jika salah satu member memenangkan event (luas awal 500 block).</li>
                                 <li>Mendapat subsidi dari server minimal untuk party kelas B ke atas.</li>
                             </ul>
                         </div>
@@ -695,22 +771,22 @@
                         <tbody>
                             <tr>
                                 <td>Kelas C</td>
-                                <td>Minimal **7** anggota (+ minimal 3 aktif)</td>
+                                <td>Minimal 7 anggota (+ minimal 3 aktif)</td>
                                 <td>1 Storage</td>
                             </tr>
                             <tr>
                                 <td>Kelas B</td>
-                                <td>Minimal **11** anggota (+ minimal 5 aktif)</td>
+                                <td>Minimal 11 anggota (+ minimal 5 aktif)</td>
                                 <td>1 Storage + 1 Hall/Bangunan Utama</td>
                             </tr>
                             <tr>
                                 <td>Kelas A</td>
-                                <td>Minimal **15** anggota (+ minimal 9 aktif)</td>
+                                <td>Minimal 15 anggota (+ minimal 9 aktif)</td>
                                 <td>1 Storage + 1 Hall/Bangunan Utama + 1 Patung</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p style="margin-top: 10px; font-size: 0.9em; color: var(--color-yellow);">*Party kelas A diperbolehkan membuat base di wilayah netral.</p>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: var(--color-yellow);">Party kelas A diperbolehkan membuat base di wilayah netral.</p>
                 </div>
             </div>
         </section>
@@ -762,8 +838,8 @@
                     <div class="progress-bar-container">
                         <div class="progress-bar" style="width: 10%; background-color: #c0392b; color: var(--color-white);">65+: Max +3 Level</div>
                     </div>
-                    <p>Adventure Level maksimal: **90**</p>
-                    <p style="margin-top: 10px; font-weight: 600;">Level Job: Naik setelah menyelesaikan **1–3 quest job** dan mendapat izin kerajaan/bangsawan.</p>
+                    <p>Adventure Level maksimal: 90</p>
+                    <p style="margin-top: 10px; font-weight: 600;">Level Job: Naik setelah menyelesaikan 1–3 quest job dan mendapat izin kerajaan/bangsawan.</p>
                 </div>
 
                 <div class="adc-block" style="background-color: rgba(0, 0, 0, 0.7);">
@@ -773,9 +849,9 @@
                     <ul class="list-group" style="list-style: decimal; margin-left: 20px;">
                         <li style="margin-bottom: 10px;">Mengerjakan Side, Global, dan Lobby Quest.</li>
                         <li style="margin-bottom: 10px;">Memenangkan event.</li>
-                        <li style="margin-bottom: 10px;">Melaporkan penggelapan ADC (Reward **5%** dari nominal penggelapan).</li>
+                        <li style="margin-bottom: 10px;">Melaporkan penggelapan ADC (Reward 5% dari nominal penggelapan).</li>
                         <li style="margin-bottom: 10px;">
-                            **Top-up**, dengan syarat: Aktif **2 minggu** berturut-turut, Maksimal top-up **1.400 ADC/minggu**, dan hanya untuk member jalur **undangan/formulir**.
+                            **Top-up**, dengan syarat: Aktif 2 minggu berturut-turut, Maksimal top-up 1.400 ADC/minggu, dan hanya untuk member jalur undangan/formulir.
                         </li>
                     </ul>
                 </div>
@@ -795,7 +871,7 @@
                         <ul class="list-group" style="list-style: none; padding-left: 0;">
                             <li class="list-item">
                                 <div class="hex-icon-container" style="background-color: var(--color-orange); animation: none;"><svg class="icon-svg" style="fill: var(--color-white);"><use xlink:href="#icon-castle"></use></svg></div>
-                                <strong>Hadiah Kelompok:</strong> Hanya boleh di-claim oleh **kerajaan** dan **party kelas A**.
+                                <strong>Hadiah Kelompok:</strong> Hanya boleh di-claim oleh kerajaan dan party kelas A.
                             </li>
                             <li class="list-item">
                                 <div class="hex-icon-container" style="background-color: var(--color-orange); animation: none;"><svg class="icon-svg" style="fill: var(--color-white);"><use xlink:href="#icon-user"></use></svg></div>
@@ -806,8 +882,8 @@
                     <div class="rp-box" style="border-color: var(--color-orange);">
                         <h4>Mekanisme Roleplay (RP)</h4>
                         <p>
-                            **1 bulan = 1 episode** (maksimal durasi **10 menit**).<br>
-                            Selama Fase 2 maksimal **4 episode** saja.
+                            1 bulan = 1 episode (maksimal durasi 10 menit).<br>
+                            Selama Fase 2 maksimal 4 episode saja.
                         </p>
                         <p style="margin-top: 20px; font-weight: 600; color: var(--color-yellow); font-size: 1.1em;">
                             <svg class="icon-svg" style="fill: var(--color-yellow); width: 2em; height: 2em; vertical-align: middle;"><use xlink:href="#icon-clapperboard"></use></svg> 
