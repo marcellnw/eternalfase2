@@ -8,12 +8,12 @@
     
     <style>
         :root {
-            --color-black: #101010; /* Lebih gelap */
+            --color-black: #101010;
             --color-orange: #ff8c00;
             --color-yellow: #ffc400;
             --color-white: #ffffff;
             --color-light-gray: #e9e9e9;
-            --color-dark-overlay: rgba(0, 0, 0, 0.7); /* Overlay hitam transparan */
+            --color-dark-overlay: rgba(0, 0, 0, 0.75); /* Overlay lebih gelap */
         }
 
         * {
@@ -24,29 +24,18 @@
         }
 
         body {
-            background-color: var(--color-light-gray);
-            color: var(--color-white); /* Mengubah warna teks default menjadi putih */
+            background-color: var(--color-black);
+            color: var(--color-white);
             line-height: 1.6;
             
-            /* Background Gambar dengan Overlay Transparan */
+            /* Background utama (Fallback jika section BG gagal) */
             background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/1b43ef5f89a9a29079ad9c0a3a8bb2d0.jpg'); 
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
         }
-
-        /* Overlay Hitam Transparan pada Body */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-dark-overlay);
-            z-index: -1;
-        }
-
+        
+        /* Container untuk mengatur lebar konten */
         .container {
             width: 90%;
             max-width: 1200px;
@@ -56,10 +45,8 @@
         /* --- Header Section (Tema Fantasy) --- */
         .header {
             background-color: var(--color-dark-overlay); 
-            color: var(--color-white);
             padding: 80px 0 120px 0;
             position: relative;
-            overflow: hidden;
             clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
             border-bottom: 5px solid var(--color-yellow); 
         }
@@ -70,6 +57,7 @@
             font-weight: 900;
             letter-spacing: 8px;
             text-shadow: 0 0 10px rgba(255, 196, 0, 0.8); 
+            text-align: center;
         }
 
         .header h1 span.orange {
@@ -86,9 +74,14 @@
             color: var(--color-yellow);
             margin-bottom: 30px;
             letter-spacing: 2px;
+            text-align: center;
         }
 
         .btn-cta {
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+            text-decoration: none;
             background-color: var(--color-yellow);
             color: var(--color-black);
             padding: 15px 40px;
@@ -97,23 +90,70 @@
             border: 2px solid var(--color-orange);
             border-radius: 5px;
             box-shadow: 0 0 15px rgba(255, 140, 0, 0.5);
+            transition: all 0.3s;
         }
 
         .btn-cta:hover {
             background-color: var(--color-orange);
             color: var(--color-white);
+            transform: scale(1.05);
         }
 
         /* --- Main Content Styling --- */
         section {
-            padding: 60px 0;
-            margin-top: -50px;
-            background-color: rgba(16, 16, 16, 0.9); 
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            padding: 80px 0;
             margin-bottom: 40px;
+            position: relative;
+            z-index: 1; /* Konten di atas overlay */
+        }
+        
+        /* Background & Overlay untuk Setiap Section */
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -2;
         }
 
+        section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-dark-overlay);
+            z-index: -1;
+        }
+
+        /* BG 1: Pendaftaran */
+        #pendaftaran::before {
+            background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/1acc33b4b508180ba1e3df423a927fe1.jpg');
+        }
+
+        /* BG 2: Kelompok */
+        #kelompok::before {
+            background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/1b43ef5f89a9a29079ad9c0a3a8bb2d0.jpg');
+        }
+
+        /* BG 3: Quest, Leveling, Hadiah, Kepengurusan */
+        #quest, #leveling-adc, #hadiah-rp, #kepengurusan {
+            padding: 40px 0;
+            margin-bottom: 0; /* Gabungkan section ini */
+        }
+
+        #quest::before, #leveling-adc::before, #hadiah-rp::before, #kepengurusan::before {
+            background-image: url('https://github.com/marcellnw/eternalfase2/raw/main/236836a73b7d8365b416a9fe9b7dcacc.jpg');
+        }
+
+
+        /* Content Styling inside Section */
         h3 {
             font-family: 'Cinzel', serif;
             font-size: 2.5em;
@@ -121,44 +161,20 @@
             text-align: center;
             margin-bottom: 40px;
             color: var(--color-yellow);
-            text-shadow: 0 0 5px rgba(255, 196, 0, 0.5);
+            text-shadow: 0 0 5px rgba(255, 196, 0, 0.7);
         }
 
         h4 {
              font-family: 'Cinzel', serif;
              font-weight: 700;
+             color: var(--color-orange);
         }
 
-        /* List Styling */
-        .list-group {
-            list-style: none;
-            padding: 0;
-        }
-
-        .list-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            background-color: rgba(255, 255, 255, 0.1); 
-            color: var(--color-white);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 5px solid var(--color-orange);
-            transition: background-color 0.2s;
-        }
-        
-        .list-item:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .list-item strong {
-            color: var(--color-yellow);
-        }
-
+        /* Icon Utility */
         .icon-svg {
             width: 24px;
             height: 24px;
-            margin-right: 15px;
+            margin-right: 10px;
             fill: var(--color-yellow); 
         }
 
@@ -170,17 +186,20 @@
             vertical-align: middle;
         }
 
-        /* --- Pendaftaran (Inspired by 1000172741) --- */
+        /* List Styling - Pendaftaran */
         .registration-list .list-item {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.6);
             border: 2px solid var(--color-yellow);
             border-left: 10px solid var(--color-yellow);
-            padding-left: 25px;
+            padding: 15px 25px;
+            margin-bottom: 15px;
         }
 
         .hex-icon-container {
+            padding: 5px;
             background-color: var(--color-yellow);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            margin-right: 15px;
         }
         
         .hex-icon-container .icon-svg {
@@ -189,84 +208,71 @@
         }
 
         .special-note {
-            background-color: rgba(255, 140, 0, 0.2); 
+            margin-top: 30px;
+            padding: 20px;
             border: 2px dashed var(--color-yellow);
+            background-color: rgba(255, 140, 0, 0.15); 
+            border-radius: 5px;
+        }
+        .special-note ul {
+            padding-left: 40px;
+            margin-top: 10px;
         }
 
-        /* Blink effect for 'Orang Dalam' */
         .orang-dalam {
             color: var(--color-yellow);
             font-weight: 700;
             text-shadow: 0 0 5px var(--color-orange);
         }
 
-
-        /* --- Leveling & ADC --- */
-        .leveling-block, .adc-block {
-            background-color: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--color-orange);
+        /* Kelompok (Kerajaan/Party) */
+        #kerajaan, #party {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 10px;
         }
-
-        .progress-bar-container {
-            background-color: #333;
-        }
-
-        .progress-bar {
-            text-shadow: 1px 1px 2px #000;
-        }
-        
-        /* --- Quest Section --- */
         .quest-box {
             border: 1px solid var(--color-yellow);
+            padding: 20px;
+            border-radius: 5px;
+            height: 100%;
         }
-
         .quest-wajib {
             background-color: rgba(0, 0, 0, 0.7);
         }
-
         .quest-eksklusif {
             background-color: rgba(255, 140, 0, 0.3);
         }
-        
+        .quest-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .quest-list li {
+            position: relative;
+            margin-bottom: 10px;
+            padding-left: 20px;
+        }
         .quest-list li::before {
             content: '♦'; 
             color: var(--color-orange);
-        }
-
-        /* --- Kelompok Tabs --- */
-        .btn-tab {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--color-white);
-            border: 1px solid var(--color-orange);
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-        }
-        .btn-tab.active {
-            background-color: var(--color-orange);
-            color: var(--color-black);
-            border-color: var(--color-yellow);
-        }
-
-        #kerajaan h4, #party h4 {
-            color: var(--color-yellow);
-        }
-        
-        .tab-content .list-group li {
-            background-color: transparent;
-            border-left-color: var(--color-yellow);
+            position: absolute;
+            left: 0;
         }
 
         /* Table Style */
         .tab-content table {
             background-color: rgba(255, 255, 255, 0.1);
             color: var(--color-white);
+            border: 1px solid var(--color-yellow);
         }
         .tab-content table thead tr {
             background-color: var(--color-orange) !important;
             color: var(--color-black) !important;
         }
-        .tab-content table td {
-            border-color: rgba(255, 255, 255, 0.2) !important;
+        .tab-content table th, .tab-content table td {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
         }
         .tab-content table tr:nth-child(even) {
             background-color: rgba(0, 0, 0, 0.3);
@@ -275,11 +281,75 @@
             background-color: var(--color-yellow) !important;
             color: var(--color-black) !important;
         }
+        .tab-content table tr:last-child td {
+             border-top: 2px solid var(--color-orange);
+        }
 
 
-        /* --- Footer --- */
+        /* Leveling & ADC */
+        .leveling-block, .adc-block {
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--color-orange);
+        }
+        .progress-bar-container {
+            height: 25px;
+            background-color: #333;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            color: var(--color-black);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        /* RP & Hadiah */
+        .rp-box, .hadiah-box {
+            border: 2px solid var(--color-yellow);
+            padding: 20px;
+            border-radius: 10px; 
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 100%;
+        }
+
+        /* Footer */
         .footer {
             background-color: var(--color-black);
+            text-align: center;
+            padding: 20px 0;
+            border-top: 3px solid var(--color-orange);
+        }
+
+        /* Tab Styles (diperlukan untuk inisiasi awal sebelum JS dimuat) */
+        .btn-tab {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--color-white);
+            border: 1px solid var(--color-orange);
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+        .btn-tab.active {
+            background-color: var(--color-orange);
+            color: var(--color-black);
+            border-color: var(--color-yellow);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
         }
         
     </style>
@@ -290,9 +360,6 @@
         <symbol id="icon-user" viewBox="0 0 24 24">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
         </symbol>
-        <symbol id="icon-hex" viewBox="0 0 24 24">
-            <path d="M12 1l8.5 4.904v9.808L12 23l-8.5-4.904V5.904L12 1zm0 2.39L4.904 6.39v11.22L12 20.61l7.096-4.004V6.39L12 3.39z"/>
-        </symbol>
         <symbol id="icon-crown" viewBox="0 0 24 24">
             <path d="M17.65 1.58L17.5 4l-4.25-.5L9 4l-.15-2.42L3 4v7c0 3.86 3.14 7 7 7s7-3.14 7-7V4l-2.35-2.42zM10 18c0 2.21-1.79 4-4 4s-4-1.79-4-4H0v2h24v-2h-6c-2.21 0-4-1.79-4-4s1.79-4 4-4h2v2h-2c-1.1 0-2 .9-2 2s.9 2 2 2h4V11c0-2.21-1.79-4-4-4s-4 1.79-4 4v7z"/>
         </symbol>
@@ -302,7 +369,6 @@
         <symbol id="icon-coin" viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.42 16.03l-1.41-.65-.01-.73c.47-.19 1.13-.58 1.13-1.42 0-.91-.72-1.27-1.85-1.72-1.3-.5-2.26-.95-2.26-2.36 0-1.13.91-1.9 2.08-2.21v-.64l1.39-.63v.64c.54.12 1.08.36 1.08 1.25 0 .76-.63 1.17-1.55 1.54-1.1.44-2.26.96-2.26 2.37 0 1.25 1.05 1.94 2.28 2.22l.01.78 1.41.65-.01-.73c-.46-.19-1.13-.58-1.13-1.42 0-.91.72-1.27 1.85-1.72 1.3-.5 2.26-.95 2.26-2.36 0-1.13-.91-1.9-2.08-2.21V6.26l-1.39-.63v.64c-.54.12-1.08.36-1.08 1.25 0 .76.63 1.17 1.55 1.54 1.1.44 2.26.96 2.26 2.37 0 1.25-1.05 1.94-2.28 2.22v.64z"/>
         </symbol>
-
         <symbol id="icon-document" viewBox="0 0 24 24">
             <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
         </symbol>
@@ -324,6 +390,9 @@
         <symbol id="icon-clapperboard" viewBox="0 0 24 24">
             <path d="M16 9v6.5l4 4V7l-4 4zm-4-4V2H4v3h8zm-1 5H4v10h16v-8l-4-4zm-7 8c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1zm5 0c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1z"/>
         </symbol>
+        <symbol id="icon-map" viewBox="0 0 24 24">
+            <path d="M20.5 3l-.16.03-3.69 1.71L12 3l-6.65 2.74-3.54-1.68L2 3.1v17.8l.35.15 3.54-1.68 5.86 2.51.15.06.15-.06 5.86-2.51 3.54 1.68.35.15V3.1l-.35-.15zM12 19.34L5 16.34V5.51l7 3v13.83zm7-3l-7 3v-13.83l7-3v13.83z"/>
+        </symbol>
     </svg>
 
     <header class="header">
@@ -344,7 +413,7 @@
             <ul class="list-group registration-list">
                 <li class="list-item">
                     <div class="hex-icon-container"><svg class="icon-svg"><use xlink:href="#icon-user"></use></svg></div>
-                    <strong>1. Undangan:</strong> Setiap kerajaan membuat list maksimal 15 orang untuk langsung masuk.
+                    <strong>1. Undangan:</strong> Setiap kerajaan membuat list maksimal **15 orang** untuk langsung masuk ke fase selanjutnya.
                 </li>
                 <li class="list-item">
                     <div class="hex-icon-container"><svg class="icon-svg"><use xlink:href="#icon-user"></use></svg></div>
@@ -357,83 +426,101 @@
             </ul>
 
             <div class="special-note">
-                <p><strong>Khusus:</strong></p>
+                <p><strong>Khusus (Jalur Alternatif):</strong></p>
                 <ul class="list-group" style="list-style: disc; margin-left: 20px;">
-                    <li>Bayar 20k</li>
+                    <li>Bayar **20k**</li>
                     <li>Catur melawan Algi/Habib/Navil/Jonathan</li>
                     <li>Lewat orang dalam (syarat: kirim selfie <span class="orang-dalam">aowkwkw</span>)</li>
                 </ul>
             </div>
         </section>
 
-        <section id="kelompok" class="container">
-            <h3>
-                <svg class="section-icon"><use xlink:href="#icon-castle"></use></svg> 
-                MEKANISME KELOMPOK
-            </h3>
+        <section id="kelompok">
+            <div class="container">
+                <h3>
+                    <svg class="section-icon"><use xlink:href="#icon-castle"></use></svg> 
+                    MEKANISME KELOMPOK
+                </h3>
 
-            <div id="tabs-group" style="margin-bottom: 30px;">
-                <button class="btn-tab active" data-tab="kerajaan">Kerajaan</button>
-                <button class="btn-tab" data-tab="party">Party</button>
-            </div>
-            
-            <div id="kerajaan" class="tab-content active">
-                <h4><svg class="icon-svg" style="fill: var(--color-yellow);"><use xlink:href="#icon-crown"></use></svg> Kerajaan</h4>
-                <ul class="list-group" style="margin-left: 20px; list-style: circle;">
-                    <li>Total kerajaan hanya **2** dan kemungkinan besar tidak bertambah pada Fase 2.</li>
-                    <li>Kerajaan harus berada pada koordinat yang berbeda.</li>
-                    <li>Kerajaan tidak boleh membuat koloni/mini base di wilayah netral.</li>
-                </ul>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-                    <div class="quest-box quest-eksklusif">
-                        <h4>Hak Kerajaan</h4>
-                        <ul class="quest-list">
-                            <li>Memberikan kupon izin naik level job.</li>
-                            <li>Wilayah awal 2.000 block, boleh diperluas.</li>
-                            <li>Mendapat subsidi server ($100 \text{ ADC} \times \text{jumlah member aktif}$).</li>
-                        </ul>
-                    </div>
-                    <div class="quest-box quest-wajib">
-                        <h4>Kewajiban Kerajaan</h4>
-                        <ul class="quest-list" style="color: var(--color-white);">
-                            <li>Membuat quest kerajaan.</li>
-                            <li>Membangun **3 bangunan wajib** dalam 1 bulan (storage, kastil, portal nether).</li>
-                        </ul>
+                <div id="tabs-group" style="margin-bottom: 30px; text-align: center;">
+                    <button class="btn-tab active" data-tab="kerajaan">Kerajaan</button>
+                    <button class="btn-tab" data-tab="party">Party</button>
+                </div>
+                
+                <div id="kerajaan" class="tab-content active">
+                    <h4><svg class="icon-svg" style="fill: var(--color-yellow);"><use xlink:href="#icon-crown"></use></svg> Kerajaan</h4>
+                    <ul class="list-group" style="margin-left: 20px; list-style: circle; margin-bottom: 20px;">
+                        <li>Total kerajaan hanya **2** dan kemungkinan besar tidak bertambah pada Fase 2.</li>
+                        <li>Kerajaan harus berada pada koordinat yang berbeda.</li>
+                        <li>Kerajaan tidak boleh membuat koloni/mini base di wilayah netral.</li>
+                    </ul>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div class="quest-box quest-eksklusif">
+                            <h4>Hak Kerajaan</h4>
+                            <ul class="quest-list">
+                                <li>Memberikan kupon izin naik level job (setiap kenaikan level harus ada persetujuan bangsawan/raja).</li>
+                                <li>Wilayah awal **2.000 block**, boleh diperluas jika memenangkan event **dua kali berturut-turut**.</li>
+                                <li>Mendapat subsidi server ($100 \text{ ADC} \times \text{jumlah member aktif}$).</li>
+                            </ul>
+                        </div>
+                        <div class="quest-box quest-wajib">
+                            <h4>Kewajiban Kerajaan</h4>
+                            <ul class="quest-list" style="color: var(--color-white);">
+                                <li>Membuat quest kerajaan.</li>
+                                <li>Membangun **3 bangunan wajib** dalam 1 bulan setelah Fase 2 rilis (storage, kastil, dan portal nether).</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="party" class="tab-content">
-                <h4><svg class="icon-svg" style="fill: var(--color-yellow);"><use xlink:href="#icon-party"></use></svg> Party</h4>
-                <ul class="list-group" style="margin-left: 20px; list-style: circle;">
-                    <li>Tidak wajib mengabdi pada kerajaan.</li>
-                    <li>Jika ingin naik level job, harus ada izin dari kerajaan terdekat.</li>
-                </ul>
-                <div style="margin-top: 20px;">
-                    <h4>Kategori Party</h4>
+                <div id="party" class="tab-content">
+                    <h4><svg class="icon-svg" style="fill: var(--color-yellow);"><use xlink:href="#icon-party"></use></svg> Party</h4>
+                    <ul class="list-group" style="margin-left: 20px; list-style: circle; margin-bottom: 20px;">
+                        <li>Tidak wajib mengabdi pada kerajaan.</li>
+                        <li>Jika ingin naik level job, harus ada izin dari kerajaan terdekat.</li>
+                    </ul>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div class="quest-box quest-eksklusif">
+                            <h4>Hak Party</h4>
+                            <ul class="quest-list">
+                                <li>Tidak terikat peraturan kerajaan apapun.</li>
+                                <li>Ekspansi wilayah maksimal **1.500 block**, didapat jika salah satu member memenangkan event (luas awal **500 block**).</li>
+                                <li>Mendapat subsidi dari server minimal untuk party kelas B ke atas.</li>
+                            </ul>
+                        </div>
+                        <div class="quest-box quest-wajib">
+                            <h4>Kewajiban Party</h4>
+                            <ul class="quest-list">
+                                <li>Membuat storage.</li>
+                                <li>Syarat Anggota Aktif: Kelas C min. 3, Kelas B min. 5, Kelas A min. 9.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">Kategori Party</h4>
                     <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                         <thead>
                             <tr style="background-color: var(--color-orange); color: var(--color-black);">
-                                <th style="padding: 10px; border: 1px solid var(--color-black);">Kelas</th>
-                                <th style="padding: 10px; border: 1px solid var(--color-black);">Syarat Anggota</th>
-                                <th style="padding: 10px; border: 1px solid var(--color-black);">Bangunan Wajib</th>
+                                <th style="width: 25%; padding: 10px;">Kelas</th>
+                                <th style="width: 35%; padding: 10px;">Syarat Anggota Total</th>
+                                <th style="width: 40%; padding: 10px;">Bangunan Wajib</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr style="background-color: var(--color-light-gray);">
-                                <td style="padding: 10px; border: 1px solid #ddd;">Kelas C</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Minimal 7 (3 Aktif)</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">1 Storage</td>
+                                <td>Kelas C</td>
+                                <td>Minimal **7** anggota (+ minimal 3 aktif)</td>
+                                <td>1 Storage</td>
                             </tr>
                             <tr style="background-color: var(--color-white);">
-                                <td style="padding: 10px; border: 1px solid #ddd;">Kelas B</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">Minimal 11 (5 Aktif)</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;">1 Storage + 1 Hall/Bangunan Utama</td>
+                                <td>Kelas B</td>
+                                <td>Minimal **11** anggota (+ minimal 5 aktif)</td>
+                                <td>1 Storage + 1 Hall/Bangunan Utama</td>
                             </tr>
                             <tr style="background-color: var(--color-yellow); color: var(--color-black);">
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: 700;">Kelas A</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: 700;">Minimal 15 (9 Aktif)</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; font-weight: 700;">1 Storage + 1 Hall + 1 Patung</td>
+                                <td style="font-weight: 700;">Kelas A</td>
+                                <td style="font-weight: 700;">Minimal **15** anggota (+ minimal 9 aktif)</td>
+                                <td style="font-weight: 700;">1 Storage + 1 Hall/Bangunan Utama + 1 Patung</td>
                             </tr>
                         </tbody>
                     </table>
@@ -442,34 +529,149 @@
             </div>
         </section>
 
-        <section id="quest" class="container">
-            <h3>
-                <svg class="section-icon"><use xlink:href="#icon-star"></use></svg> 
-                MEKANISME QUEST
-            </h3>
-            <div class="quest-grid">
-                <div class="quest-box quest-wajib">
-                    <h4>Quest Wajib (5)</h4>
-                    <ul class="quest-list">
-                        <li>Global Quest</li>
-                        <li>Special Quest</li>
-                        <li>Side Quest (wajib menyelesaikan 1 dari 5)</li>
-                        <li>Lobby Quest (minimal Adventure Level 20)</li>
-                        <li>Job Quest</li>
-                    </ul>
+        <section id="quest">
+            <div class="container">
+                <h3>
+                    <svg class="section-icon"><use xlink:href="#icon-star"></use></svg> 
+                    MEKANISME QUEST
+                </h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="quest-box quest-wajib">
+                        <h4>Quest Wajib (5 Tipe)</h4>
+                        <ul class="quest-list" style="color: var(--color-white);">
+                            <li>Global Quest</li>
+                            <li>Special Quest</li>
+                            <li>Side Quest (wajib menyelesaikan 1 dari 5)</li>
+                            <li>Lobby Quest (minimal Adventure Level 20)</li>
+                            <li>Job Quest</li>
+                        </ul>
+                    </div>
+                    <div class="quest-box quest-eksklusif">
+                        <h4>Quest Eksklusif (3 Tipe)</h4>
+                        <ul class="quest-list" style="color: var(--color-white);">
+                            <li>Quest member aktif</li>
+                            <li>Quest kerajaan</li>
+                            <li>Quest donatur</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="quest-box quest-eksklusif">
-                    <h4>Quest Eksklusif (3)</h4>
-                    <ul class="quest-list">
-                        <li>Quest member aktif</li>
-                        <li>Quest kerajaan</li>
-                        <li>Quest donatur</li>
+            </div>
+        </section>
+
+        <section id="leveling-adc">
+            <div class="container">
+                <h3>
+                    <svg class="section-icon"><use xlink:href="#icon-graph"></use></svg> 
+                    LEVELING & MATA UANG (ADC)
+                </h3>
+
+                <div class="leveling-block">
+                    <h4>Leveling Maksimal Mingguan (Adventure Level)</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 55%; background-color: #f1c40f;">0–50: Max +10 Level</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 35%; background-color: #e67e22;">50–65: Max +5 Level</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 10%; background-color: #c0392b; color: var(--color-white);">65+: Max +3 Level</div>
+                    </div>
+                    <p>Adventure Level maksimal: **90**</p>
+                    <p style="margin-top: 10px; font-weight: 600;">Level Job: Naik setelah menyelesaikan **1–3 quest job** dan mendapat izin kerajaan/bangsawan.</p>
+                </div>
+
+                <div class="adc-block" style="background-color: rgba(0, 0, 0, 0.7);">
+                    <h4><svg class="icon-svg" style="fill: var(--color-yellow);"><use xlink:href="#icon-coin"></use></svg> Mata Uang ADC (Eternal Dollar Coin)</h4>
+                    <p>Sistem mata uang resmi Fase 2 dan seterusnya.</p>
+                    <h4 style="margin-top: 15px; color: var(--color-yellow);">Cara Mendapatkan ADC</h4>
+                    <ul class="list-group" style="list-style: decimal; margin-left: 20px;">
+                        <li style="margin-bottom: 10px;">Mengerjakan Side, Global, dan Lobby Quest.</li>
+                        <li style="margin-bottom: 10px;">Memenangkan event.</li>
+                        <li style="margin-bottom: 10px;">Melaporkan penggelapan ADC (Reward **5%** dari nominal penggelapan).</li>
+                        <li style="margin-bottom: 10px;">
+                            **Top-up**, dengan syarat: Aktif **2 minggu** berturut-turut, Maksimal top-up **1.400 ADC/minggu**, dan hanya untuk member jalur **undangan/formulir**.
+                        </li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <section id="leveling-adc" class="container">
-            <h3>
-                <svg class="section-icon"><use xlink:href="#icon-graph"></use></svg> 
-            
+        <section id="hadiah-rp">
+            <div class="container">
+                <h3>
+                    <svg class="section-icon"><use xlink:href="#icon-gift"></use></svg> 
+                    HADIAH EVENT & MEKANISME RP
+                </h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div class="hadiah-box">
+                        <h4>Pembagian Hadiah Event</h4>
+                        <p style="margin-bottom: 10px; font-style: italic;">Jenis hadiah: ADC, SL, Armor, dan item lainnya.</p>
+                        <ul class="list-group" style="list-style: none;">
+                            <li class="list-item" style="border-left-color: var(--color-yellow);">
+                                <strong>Hadiah Kelompok:</strong> Hanya boleh di-claim oleh **kerajaan** dan **party kelas A**.
+                            </li>
+                            <li class="list-item" style="border-left-color: var(--color-yellow);">
+                                <strong>Hadiah Perorangan:</strong> Boleh di-claim semua member, tetapi poinnya masuk ke kelompok.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="rp-box" style="border-color: var(--color-orange);">
+                        <h4>Mekanisme Roleplay (RP)</h4>
+                        <p>
+                            **1 bulan = 1 episode** (maksimal durasi **10 menit**).<br>
+                            Selama Fase 2 maksimal **4 episode** saja.
+                        </p>
+                        <p style="margin-top: 15px; font-weight: 600; color: var(--color-yellow);">
+                            <svg class="icon-svg" style="fill: var(--color-yellow); width: 2em; height: 2em; vertical-align: middle;"><use xlink:href="#icon-clapperboard"></use></svg> 
+                            Ditunggu aksi dan dramanya!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kepengurusan">
+            <div class="container">
+                <h3>
+                    <svg class="section-icon"><use xlink:href="#icon-handshake"></use></svg> 
+                    KEPENGURUSAN SERVER
+                </h3>
+                <ul class="list-group" style="list-style: square; margin-left: 40px; background-color: transparent;">
+                    <li style="margin-bottom: 10px;">Menyiapkan event.</li>
+                    <li style="margin-bottom: 10px;">Mengurus quest.</li>
+                    <li style="margin-bottom: 10px;">Mengecek transaksi dan persebaran ADC.</li>
+                    <li style="margin-bottom: 10px;">Mengawasi item member.</li>
+                    <li style="margin-bottom: 10px;">Mengumpulkan laporan member.</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 EternalSMP S14. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.btn-tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.getAttribute('data-tab');
+
+                    // Remove active from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    // Add active to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
